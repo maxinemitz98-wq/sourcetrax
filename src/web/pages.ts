@@ -43,7 +43,7 @@ export function renderHome(opts: { value?: string; error?: string } = {}) {
     `<div class="home">
 <a class="logo" href="/">sourcetrax</a>
 <main>
-<h1>Play it out.<br><span>Lossless or on wax.</span></h1>
+<h1>Find your track.<br><span>Lossless or on wax.</span></h1>
 <p class="sub">Paste a link and see every shop that sells it: lossless downloads, new pressings and second-hand vinyl.</p>
 <form action="/find" method="get" data-busy>
 <label class="eyebrow" for="url">Paste a track link</label>

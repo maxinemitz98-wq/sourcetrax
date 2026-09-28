@@ -113,7 +113,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .pill:hover { border-color: var(--ink); }
 .pill[aria-pressed="true"] { font-weight: 600; color: #fff; background: var(--ink); border-color: var(--ink); }
 
-.table { display: flex; flex-direction: column; gap: 6px; }
+.table, [data-rows] { display: flex; flex-direction: column; gap: 6px; }
 .row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.7fr) minmax(0, 1fr) 150px; gap: 24px; align-items: center; min-height: 68px; padding: 0 28px; border-radius: 4px; }
 .row.head { min-height: 0; padding-bottom: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .row .price { text-align: right; }

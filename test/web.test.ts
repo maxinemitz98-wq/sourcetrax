@@ -41,7 +41,7 @@ describe("server", () => {
     const res = await get("/");
     expect(res.status).toBe(200);
     const html = await res.text();
-    expect(html).toContain("Play it out.");
+    expect(html).toContain("Find your track.");
     expect(html).toContain("Lossless or on wax.");
     expect(html).toContain('action="/find"');
   });
