@@ -1,0 +1,23 @@
+# Spike test set. Run: bun run find.ts --file testset.txt
+# Links were found via web search on 2026-09-28; each comment says what the link should turn out to be.
+
+# 1. Spotify, current electronic release (2026): Fred again.., Skrillex, Four Tet "Baby again.."
+https://open.spotify.com/track/6EpIDF3GW1dRBujSp4bJxI
+
+# 2. Apple Music (song URL form): Kerri Chandler "Track 1 (Remaster)"
+https://music.apple.com/gb/song/track-1-remaster/1803420574
+
+# 3. YouTube, official upload: Floating Points "Ablaze" (Official Audio), 2024
+https://www.youtube.com/watch?v=QeM3xQLd69o
+
+# 4. YouTube vinyl rip of an obscure record: P.R.D. "I Want To... (Vocal)", Tanga Label TL 004, Italy 1984
+https://www.youtube.com/watch?v=UmhqVEuzWY8
+
+# 5. Classic with many represses: Rhythim Is Rhythim "Strings Of Life" (Transmat, 1987), YouTube rip
+https://www.youtube.com/watch?v=8e5aWNpU_b8
+
+# 5b. Classic with many represses: Mr. Fingers "Can You Feel It" (Trax, 1986), Spotify
+https://open.spotify.com/track/2jwRKUOBoN1hiMFuuKdIJE
+
+# Bonus edge case: track title vs EP title (Kerri Chandler "Four", Raw Grooves EP, 1995)
+https://www.youtube.com/watch?v=gRNBjpL8TjU

@@ -1,0 +1,17 @@
+{
+  "name": "sourcetrax",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Spike: track link -> Discogs release -> where to buy it (digital, second-hand vinyl, represses).",
+  "scripts": {
+    "find": "bun run find.ts",
+    "check-shops": "bun run find.ts --check-shops",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
+}
