@@ -110,7 +110,7 @@ test/                 bun tests (unit + mocked end-to-end)
 
 ## Designed to keep open (not built)
 
-- **Web UI.** `run()` in `src/pipeline.ts` returns one serialisable `Result` (the same object `--json` prints). A page can call it and render the steps: confirm the candidate (the candidate already carries thumb, label, catno and year), then show results.
+- **Web UI** (spec: [docs/UX.md](docs/UX.md)). `run()` in `src/pipeline.ts` returns one serialisable `Result` (the same object `--json` prints). A page can call it and render the steps: confirm the candidate (the candidate already carries thumb, label, catno and year), then show results.
 - **Real stock/price checks.** `ShopLink` is where a per-shop checker plugs in. Check each shop's ToS before scraping publicly.
 - **Watch for represses or price drops.** Versions are keyed by Discogs master, so a watcher can diff `masterVersions()` for new release ids, and `marketplaceStats()` against a price threshold.
 - **Affiliate links.** All shop URLs come from `Shop.search()`, which is the single place to wrap them.
