@@ -2,7 +2,7 @@
 
 Paste a track link (Spotify, Apple Music or YouTube). The tool finds the record on Discogs and shows where to get it: digital downloads, the original vinyl second-hand, and any represses or reissues. It covers electronic and electronic-adjacent music, with EU/UK shops.
 
-This is **step 1**, a CLI spike that tests whether the matching holds up. There is no UI yet. See [REPORT.md](REPORT.md) for results.
+It has two parts: a **CLI spike** that tests whether the matching holds up (see [REPORT.md](REPORT.md)), and a **web page** built from the agreed design ([docs/UX.md](docs/UX.md)).
 
 ## Setup
 
@@ -36,7 +36,23 @@ bun run find.ts --check-shops ["query"]     # verify each shop's search-URL patt
 bun test                                    # offline unit + mocked end-to-end tests
 ```
 
-For each URL the output shows:
+### Web page
+
+```sh
+bun run serve        # http://localhost:3000 (needs the same .env and network as the CLI)
+bun run demo         # offline demo: synthetic data, a "Demo data" badge, no API keys needed
+```
+
+- **`/`**: paste a Spotify, Apple Music or YouTube link. Other links (Bandcamp, playlists, artist pages) get a clear error on the same page.
+- **`/find?url=…`**: the matched record, a "Not this record?" menu of the other candidates (`&release=<id>` picks one), and the table.
+  - The table has one row per place: vinyl rows dark, digital rows light, and the place name is the link.
+  - Discogs rows show real copy counts and "from" prices, split into original press, later pressings and bootlegs. Shops show "Check price".
+  - All / Vinyl / Digital filter and Place / Price order work in the browser.
+- **`/api/find?url=…`**: the same result as JSON.
+
+A lookup takes a few seconds to about 30 s, because of the per-API rate limits. The Go button shows "Finding…" while it waits. Repeat lookups come from the 24 h cache.
+
+For each URL the CLI output shows:
 
 - **RESOLVED**: artist, title, mix, ISRC, label and catno hints, which resolvers contributed, and any warnings.
 - **IDENTIFIED**: which path produced the match, what every path returned, and the top 3 Discogs candidates. Each candidate is a distinct master, with a score, a confidence level and the reasons for both.
@@ -105,12 +121,13 @@ src/discogs.ts, src/musicbrainz.ts   API clients
 src/http.ts           fetch wrapper: per-API rate limits, retry-once on 429/503, timeouts, disk cache
 src/text.ts           normalisation, fuzzy match, YouTube title/description parsing, catnos
 src/format.ts         text output
-test/                 bun tests (unit + mocked end-to-end)
+server.ts             web server (Bun.serve): /, /find, /api/find
+src/web/              page HTML, table rows, styles
+test/                 bun tests (unit, mocked end-to-end, web pages); test/fixtures/demo.ts = demo data
 ```
 
 ## Designed to keep open (not built)
 
-- **Web UI** (spec: [docs/UX.md](docs/UX.md)). `run()` in `src/pipeline.ts` returns one serialisable `Result` (the same object `--json` prints). A page can call it and render the steps: confirm the candidate (the candidate already carries thumb, label, catno and year), then show results.
 - **Real stock/price checks.** `ShopLink` is where a per-shop checker plugs in. Check each shop's ToS before scraping publicly.
 - **Watch for represses or price drops.** Versions are keyed by Discogs master, so a watcher can diff `masterVersions()` for new release ids, and `marketplaceStats()` against a price threshold.
 - **Affiliate links.** All shop URLs come from `Shop.search()`, which is the single place to wrap them.

@@ -6,6 +6,8 @@
   "description": "Spike: track link -> Discogs release -> where to buy it (digital, second-hand vinyl, represses).",
   "scripts": {
     "find": "bun run find.ts",
+    "serve": "bun run server.ts",
+    "demo": "SOURCETRAX_DEMO=1 bun run server.ts",
     "check-shops": "bun run find.ts --check-shops",
     "test": "bun test",
     "typecheck": "tsc --noEmit"

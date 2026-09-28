@@ -118,6 +118,8 @@ export interface Result {
     path?: IdentifyPath;
     tried: { path: IdentifyPath; outcome: string }[];
     candidates: Candidate[];
+    /** The candidate that was expanded: the top one, or the one the user picked. */
+    chosenReleaseId?: number;
   };
   expanded?: Expanded;
   whereToGet: {

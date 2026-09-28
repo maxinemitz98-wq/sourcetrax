@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "types": ["bun"]
   },
-  "include": ["find.ts", "src", "test"]
+  "include": ["find.ts", "server.ts", "src", "test"]
 }
