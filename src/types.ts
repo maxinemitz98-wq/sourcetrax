@@ -111,6 +111,38 @@ export interface Expanded {
   versionCount: number;
 }
 
+export interface OtherRelease {
+  artist: string;
+  title: string;
+  label?: string;
+  catno?: string;
+  year?: number;
+  format?: string;
+  url: string;
+  unofficial: boolean;
+}
+
+/** The About box next to the record. */
+export interface About {
+  artist?: {
+    name: string;
+    url: string;
+    realName?: string;
+    aliases: string[];
+    groups: string[];
+    /** Records released as main artist under this name (undefined when there are too many to count). */
+    recordCount?: number;
+  };
+  /** "X is a moniker of Y, who also records as …. This is the only record released under the name X." */
+  moniker?: string;
+  bio?: { text: string; source: "Discogs" | "Wikipedia"; url: string };
+  releaseNotes?: string;
+  /** Set when Discogs had no official later pressing and the extra search ran. */
+  repressSearched?: boolean;
+  /** Other records with this track (possible represses, reissues on other labels, compilations). */
+  otherReleases?: OtherRelease[];
+}
+
 export interface Result {
   input: string;
   resolved: Resolved;
@@ -122,6 +154,7 @@ export interface Result {
     chosenReleaseId?: number;
   };
   expanded?: Expanded;
+  about?: About;
   whereToGet: {
     discogs: { label: string; url: string }[];
     digital: ShopLink[];

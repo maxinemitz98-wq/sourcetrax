@@ -100,6 +100,7 @@ ${others
 </ul>
 </details>`
     : "";
+  const about = aboutBox(r.about);
   return `<section class="record" aria-label="Matched record">
 <div class="cover">${cover}</div>
 <div class="meta">
@@ -108,8 +109,34 @@ ${artist ? `<div class="artist">${esc(artist)}</div>` : ""}
 <div class="facts">${facts.filter(Boolean).map((f) => `<span>${esc(f)}</span>`).join("")}</div>
 ${note}
 </div>
-${alt}
+${about || alt ? `<div class="side">${about}${alt}</div>` : ""}
 </section>`;
+}
+
+/** Small description box: who the artist is, a short bio, release notes, and the extra repress search. */
+function aboutBox(a: Result["about"]): string {
+  if (!a) return "";
+  const parts: string[] = [];
+  if (a.moniker) parts.push(`<p class="lead">${esc(a.moniker)}</p>`);
+  if (a.bio) parts.push(`<p>${esc(a.bio.text)} <a class="src" href="${esc(a.bio.url)}" target="_blank" rel="noopener">${esc(a.bio.source)}</a></p>`);
+  if (a.releaseNotes) parts.push(`<p><span class="label">Release notes</span> ${esc(a.releaseNotes)}</p>`);
+  if (a.repressSearched) {
+    if (a.otherReleases?.length) {
+      parts.push(`<p class="label">No repress on Discogs yet. The track is also on:</p>
+<ul>${a.otherReleases
+        .map(
+          (o) => `<li><a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.artist)} – ${esc(o.title)}</a> <small>${esc([o.label, o.catno, o.year, o.format].filter(Boolean).join(" · "))}${o.unofficial ? " · bootleg" : ""}</small></li>`,
+        )
+        .join("")}</ul>`);
+    } else {
+      parts.push(`<p class="label">No repress or reissue found on Discogs.</p>`);
+    }
+  }
+  if (!parts.length) return "";
+  return `<aside class="about" aria-label="About this record">
+<p class="eyebrow">About</p>
+${parts.join("\n")}
+</aside>`;
 }
 
 function rowHtml(row: Row) {

@@ -5,7 +5,12 @@ Mockup: https://claude.ai/artifact/MWopupFTmPfQ7ViHzPoEmY (private to the owner)
 ## Flow
 
 1. **Input page.** Centred on the page: the headline "Find your track. / Lossless or on wax." (second line in red), a one-line subline ("Paste a link and see every shop that sells it: lossless downloads, new pressings and second-hand vinyl."), then one large link field with the **Go** button, then a small box listing accepted sources (Spotify, Apple Music, YouTube). The logo sits top left. There is no tagline.
-2. **Results page.** The matched record at the top: cover, title, artist, label, year, format. No confidence level is shown. Next to the record is a "Not this record? N other matches" button (charcoal pill; red on hover) that opens the other candidates. Below it, a table of places to get the record.
+2. **Results page.** The matched record at the top: cover, title, artist, label, year, format. No confidence level is shown. To the right of the record info is a small **About** box:
+   - Who the artist is: real name, other monikers, and how many records exist under this name (e.g. "X is a moniker of Y, who also records as Z. This is the only record released under the name X."). From the Discogs artist page.
+   - A short bio: the Discogs artist profile, else the artist's Wikipedia summary (only accepted if it's about a musician or DJ).
+   - The Discogs release notes, shortened.
+   - When Discogs shows no official later pressing: an extra search for other records carrying the track (represses filed under another master, reissues on other labels, compilations, bootlegs flagged), or "No repress or reissue found on Discogs."
+   Below the About box is a "Not this record? N other matches" button (charcoal pill; red on hover) that opens the other candidates. Below it, a table of places to get the record.
 
 ## Results table
 

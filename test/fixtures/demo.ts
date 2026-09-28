@@ -26,7 +26,9 @@ const stats: Record<number, { num_for_sale: number; lowest_price: { value: numbe
   9000005: { num_for_sale: 16, lowest_price: { value: 14, currency: "EUR" } },
 };
 const original = {
-  id: 9000001, title: "Can You Feel It", artists_sort: "Mr. Fingers", labels: [{ name: "Trax Records", catno: "TX117" }], year: 1986, country: "US",
+  id: 9000001, title: "Can You Feel It", artists_sort: "Mr. Fingers", artists: [{ id: 9500001, name: "Mr. Fingers" }],
+  notes: "Demo notes: recorded at home on a [a=Roland] TR-707. [url=https://example.com]Pressing info[/url] on the B-side label.",
+  labels: [{ name: "Trax Records", catno: "TX117" }], year: 1986, country: "US",
   formats: [{ name: "Vinyl", qty: "1", descriptions: ['12"', "33 ⅓ RPM"] }], genres: ["Electronic"], styles: ["Deep House", "Chicago House"], master_id: master.id,
   tracklist: [{ position: "A", title: "Can You Feel It", type_: "track" }, { position: "B", title: "Washing Machine", type_: "track" }],
 };
@@ -36,7 +38,7 @@ const compilation = {
   tracklist: [{ position: "A1", title: "Can You Feel It", artists: [{ name: "Mr. Fingers" }] }],
 };
 const remix = {
-  id: 9300001, title: "Can You Feel It (Remixes)", artists_sort: "Mr. Fingers", labels: [{ name: "Alleviated Records", catno: "ML 2230" }], year: 2019,
+  id: 9300001, title: "Can You Feel It (Remixes)", artists_sort: "Mr. Fingers", artists: [{ id: 9500001, name: "Mr. Fingers" }], labels: [{ name: "Alleviated Records", catno: "ML 2230" }], year: 2019,
   formats: [{ name: "Vinyl", descriptions: ['12"'] }], genres: ["Electronic"], styles: ["Deep House"], master_id: 9100003,
   tracklist: [{ position: "A", title: "Can You Feel It (Remix)" }, { position: "B", title: "Can You Feel It (Dub)" }],
 };
@@ -62,6 +64,19 @@ export const demoRoutes: Route[] = [
   [/api\.discogs\.com\/masters\/\d+\/versions/, { pagination: { pages: 1, items: 0 }, versions: [] }],
   [/api\.discogs\.com\/masters\/\d+(\?|$)/, (u: string) => ({ id: Number(u.match(/masters\/(\d+)/)![1]), title: "Demo master", year: 1988 })],
   [/api\.discogs\.com\/marketplace\/stats\/(\d+)/, (u: string) => stats[Number(u.match(/stats\/(\d+)/)![1])] ?? { num_for_sale: 3, lowest_price: { value: 20, currency: "EUR" } }],
+  [/api\.discogs\.com\/artists\/9500001\/releases/, {
+    pagination: { items: 3 },
+    releases: [
+      { id: 9100001, type: "master", role: "Main", title: "Can You Feel It" },
+      { id: 9100003, type: "master", role: "Main", title: "Can You Feel It (Remixes)" },
+      { id: 9200001, type: "release", role: "TrackAppearance", title: "Chicago Jacks" },
+    ],
+  }],
+  [/api\.discogs\.com\/artists\/9500001/, {
+    id: 9500001, name: "Mr. Fingers", realname: "Demo Realname",
+    aliases: [{ id: 9500002, name: "Demo Alias" }, { id: 9500003, name: "Other Alias (2)" }],
+    profile: "Demo profile: Chicago house producer. Worked with [a=Demo Vocalist] and released on [l=Trax Records].",
+  }],
   [/api\.discogs\.com\/releases\/9000001/, original],
   [/api\.discogs\.com\/releases\/9200001/, compilation],
   [/api\.discogs\.com\/releases\/9300001/, remix],

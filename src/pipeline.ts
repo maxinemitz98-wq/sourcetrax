@@ -5,6 +5,7 @@ import { expand, shopCatno } from "./expand.ts";
 import { buildShopLinks } from "./shops.ts";
 import { flattenRelease, release, webUrl } from "./discogs.ts";
 import { baseTitle } from "./text.ts";
+import { aboutRelease } from "./about.ts";
 import type { Candidate, Result } from "./types.ts";
 
 export interface RunOpts {
@@ -12,6 +13,8 @@ export interface RunOpts {
   statsLimit: number;
   /** Expand this Discogs release instead of the top candidate ("Not this record?"). */
   releaseId?: number;
+  /** Fetch artist info / release notes / extra repress search (default true). */
+  about?: boolean;
 }
 
 export async function run(input: string, opts: RunOpts): Promise<Result> {
@@ -34,6 +37,7 @@ export async function run(input: string, opts: RunOpts): Promise<Result> {
     best = picked ?? best;
   }
   const expanded = best ? await expand(best, id.details, { currency: opts.currency, statsLimit: opts.statsLimit }) : undefined;
+  const about = best && opts.about !== false ? await aboutRelease(best, expanded, id.details) : undefined;
 
   const discogsLinks: { label: string; url: string }[] = [];
   if (expanded?.master) discogsLinks.push({ label: `All vinyl versions for sale (master ${expanded.master.id})`, url: expanded.master.marketplaceUrl });
@@ -55,6 +59,7 @@ export async function run(input: string, opts: RunOpts): Promise<Result> {
     resolved,
     identify: { path: id.path, tried: id.tried, candidates: id.candidates, chosenReleaseId: best?.releaseId },
     expanded,
+    about,
     whereToGet: { discogs: discogsLinks, digital, vinyl },
     httpCalls: { ...callCounts },
     elapsedMs: Date.now() - t0,

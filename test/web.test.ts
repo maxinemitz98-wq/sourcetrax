@@ -74,6 +74,16 @@ describe("server", () => {
     const html = await (await get(`/find?url=${encodeURIComponent(SPOTIFY)}&release=9300001`)).text();
     expect(html).toContain("<h1>Can You Feel It (Remixes)</h1>");
     expect(html).toContain("Not this record? 2 other matches");
+    expect(html).toContain("No repress on Discogs yet. The track is also on:");
+    expect(html).toContain("Various – Chicago Jacks");
+  });
+
+  test("About box next to the record", async () => {
+    const html = await (await get(`/find?url=${encodeURIComponent(SPOTIFY)}`)).text();
+    expect(html).toContain('<aside class="about"');
+    expect(html).toContain("Mr. Fingers is a moniker of Demo Realname");
+    expect(html).toContain("Release notes</span> Demo notes");
+    expect(html).not.toContain("No repress");
   });
 
   test("JSON API", async () => {

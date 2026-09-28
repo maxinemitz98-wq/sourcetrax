@@ -74,7 +74,20 @@ export async function marketplaceStats(id: number, currency = "EUR") {
   return r.ok ? r.data : undefined;
 }
 
+/** GET /artists/{id}: profile, realname, aliases, groups. */
+export async function artist(id: number) {
+  const r = await dget(`/artists/${id}`);
+  return r.ok ? r.data : undefined;
+}
+
+/** GET /artists/{id}/releases: first 100 credits, oldest first. */
+export async function artistReleases(id: number) {
+  const r = await dget(`/artists/${id}/releases`, { sort: "year", sort_order: "asc", per_page: 100 });
+  return r.ok ? { releases: (r.data?.releases ?? []) as any[], total: (r.data?.pagination?.items ?? 0) as number } : undefined;
+}
+
 export const webUrl = {
+  artist: (id: number) => `https://www.discogs.com/artist/${id}`,
   release: (id: number) => `https://www.discogs.com/release/${id}`,
   master: (id: number) => `https://www.discogs.com/master/${id}`,
   sellRelease: (id: number) => `https://www.discogs.com/sell/release/${id}`,
@@ -99,6 +112,10 @@ export interface FlatRelease {
   thumb?: string;
   numForSale?: number;
   lowestPrice?: number;
+  /** Credited release artists with their Discogs ids (for the About box). */
+  artistRefs?: { id: number; name: string }[];
+  /** The release's free-text notes. */
+  notes?: string;
 }
 
 /** Discogs release JSON -> flat fields used for scoring and display. */
@@ -132,6 +149,8 @@ export function flattenRelease(d: any): FlatRelease {
     thumb: (d.thumb || d.images?.[0]?.uri150) as string | undefined,
     numForSale: d.num_for_sale as number | undefined,
     lowestPrice: d.lowest_price as number | undefined,
+    artistRefs: ((d.artists ?? []) as any[]).filter((a) => a.id).map((a) => ({ id: a.id as number, name: a.name as string })),
+    notes: (d.notes || undefined) as string | undefined,
   };
 }
 

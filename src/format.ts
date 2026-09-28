@@ -66,6 +66,21 @@ export function formatText(r: Result): string {
     if (e.versions.length > shown.length) L.push(dim(`  … ${e.versions.length - shown.length} more (see --json)`));
   }
 
+  // ABOUT
+  const a = r.about;
+  if (a && (a.moniker || a.bio || a.releaseNotes || a.repressSearched)) {
+    L.push(bold("ABOUT"));
+    if (a.moniker) L.push(`  ${a.moniker}`);
+    if (a.bio) L.push(`  ${a.bio.text} ${dim(`(${a.bio.source}: ${a.bio.url})`)}`);
+    if (a.releaseNotes) L.push(`  Release notes: ${a.releaseNotes}`);
+    if (a.repressSearched) {
+      if (a.otherReleases?.length) {
+        L.push(`  No repress on Discogs yet. The track is also on:`);
+        for (const o of a.otherReleases) L.push(`    ${o.artist} – ${o.title} ${dim([o.label, o.catno, o.year, o.format].filter(Boolean).join(" · "))}${o.unofficial ? red(" bootleg") : ""}  ${dim(o.url)}`);
+      } else L.push(`  No repress or reissue found on Discogs.`);
+    }
+  }
+
   // WHERE TO GET IT
   L.push(bold("WHERE TO GET IT"));
   if (r.whereToGet.discogs.length) {

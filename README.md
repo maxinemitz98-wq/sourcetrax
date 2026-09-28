@@ -22,7 +22,7 @@ cp .env.example .env   # then fill in DISCOGS_TOKEN
 
 Bun loads `.env` automatically.
 
-**Network:** the script needs outbound HTTPS to `api.song.link`, `api.deezer.com`, `itunes.apple.com`, `musicbrainz.org`, `api.discogs.com`, `www.youtube.com` and `www.googleapis.com`. `--check-shops` also needs each shop's domain.
+**Network:** the script needs outbound HTTPS to `api.song.link`, `api.deezer.com`, `itunes.apple.com`, `musicbrainz.org`, `api.discogs.com`, `www.youtube.com`, `www.googleapis.com` and `en.wikipedia.org` (artist bios). `--check-shops` also needs each shop's domain.
 
 ## Usage
 
